@@ -6,6 +6,7 @@ import UserDataCom from './UserDataCom';
 import UserPage from './userCom';
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 
+
 function App() {
   return (
     
@@ -16,6 +17,7 @@ function App() {
     <Routes>
       <Route path='/' element={<UserPage/>}></Route>
       <Route path='/user' element={<MyFormComponent/>} />
+      <Route path='/filet' element={<UserDataComponent/>} />
     </Routes>
   </BrowserRouter>
   );
