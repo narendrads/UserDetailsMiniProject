@@ -4,13 +4,14 @@ import './App1.css';
 import { Link } from 'react-router-dom';
 
 const MyFormComponent = () => {
-    const [formData, setFormData] = useState({
+    const initialFormData = {
         userFirstName: '',
         userLastName: '',
         userAge: '',
         userPhoneNo: ''
-        // Add more fields as needed
-    });
+    };
+
+    const [formData, setFormData] = useState(initialFormData);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -25,9 +26,10 @@ const MyFormComponent = () => {
         try {
             const response = await axios.post('http://localhost:8090/save', formData);
             console.log(response.data);
-            // Handle success, reset form, show confirmation, etc.
+            // Handle success, reset form
+            setFormData(initialFormData);
         } catch (error) {
-            console.error('Error submitting form:', error.message); // Log the error message
+            console.error('Error submitting form:', error.message);
             // Handle error
         }
     };

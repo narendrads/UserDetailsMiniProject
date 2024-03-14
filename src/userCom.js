@@ -3,6 +3,7 @@ import axios from 'axios';
 import './App1.css';
 import EditableCell from './Editecell';
 import { Link } from 'react-router-dom';
+import PdfDownloadButton from './PdfDownloadButton';
 
 const UserPage = () => {
     const [userData, setUserData] = useState([]);
@@ -87,7 +88,9 @@ const UserPage = () => {
     return (
         <div>
            <h2 className='text-center mt-4 ' style={{color:'tomato'}}>USER DETAILS</h2>
+           <PdfDownloadButton />
            <Link to="/user" className='btn btn-primary'>Add User</Link>
+           <Link to="/filet" className='btn btn-primary'>Filter Users</Link>
             <table className='table mt-2'>
                 <thead>
                     <tr>
