@@ -4,28 +4,42 @@ import './App1.css';
 import EditableCell from './Editecell';
 import { Link } from 'react-router-dom';
 import PdfDownloadButton from './PdfDownloadButton';
+import UserDataCom from './UserDataCom';
+import { useFilteredUserData } from './FilteredUserDataContext';
 
-const UserPage = () => {
+const UserPage = (props) => {
     const [userData, setUserData] = useState([]);
     const [currentPage, setCurrentPage] = useState(0);
     const [pageSize, setPageSize] = useState(5);
     const [editingUserId, setEditingUserId] = useState(null);
     const [sortColumn, setSortColumn] = useState('userId'); // Default sorting column
     const [sortOrder, setSortOrder] = useState('asc'); // Default sorting order
+    const { filteredUserData } = useFilteredUserData() || {};
+ 
+    console.log("hello",filteredUserData);
 
     useEffect(() => {
         fetchData();
+        
+       
     }, [currentPage, pageSize, sortColumn, sortOrder]);
 
     const fetchData = async () => {
         try {
-            const response = await axios.get(`http://localhost:8090/pagedAndSorted?columnName=${sortColumn}&sortOrder=${sortOrder}&page=${currentPage}&size=${pageSize}`);
+            let response;
+            response = await axios.get(`http://localhost:8090/pagedAndSorted?columnName=${sortColumn}&sortOrder=${sortOrder}&page=${currentPage}&size=${pageSize}`);
             setUserData(response.data);
-            console.log(userData);
+            if (filteredUserData.length > 0) {
+                setUserData(filteredUserData);
+            }
+            
         } catch (error) {
             console.error('Error fetching data:', error);
         }
     };
+    
+   
+
 
     const handlePreviousPage = () => {
         if (currentPage > 0) {
@@ -88,7 +102,7 @@ const UserPage = () => {
     return (
         <div>
            <h2 className='text-center mt-4 ' style={{color:'tomato'}}>USER DETAILS</h2>
-           <PdfDownloadButton />
+          
            <Link to="/user" className='btn btn-primary'>Add User</Link>
            <Link to="/filet" className='btn btn-primary'>Filter Users</Link>
             <table className='table mt-2'>
@@ -144,7 +158,10 @@ const UserPage = () => {
                 <span>Page: {currentPage + 1}</span>
                 <button onClick={handleNextPage}>Next</button>
             </div>
-        </div>
+            <div style={{ textAlign: 'right' }}>
+            <PdfDownloadButton />
+            </div> 
+  </div>
     );
 };
 
